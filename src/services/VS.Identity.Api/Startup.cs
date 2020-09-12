@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using VS.Identity.Api.Data;
 
 namespace VS.Identity.Api
@@ -37,10 +38,24 @@ namespace VS.Identity.Api
                 .AddDefaultTokenProviders();
             
             services.AddControllers();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "Virtual Store",
+                    Description = "This API is a virtual store sample.",
+                    License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
+                    Contact = new OpenApiContact() { Email = "guilhermemurari@icloud.com", Name = "Guilherme" }
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

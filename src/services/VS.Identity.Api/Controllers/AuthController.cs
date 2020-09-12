@@ -8,6 +8,7 @@ using VS.Identity.Api.ViewModels;
 
 namespace VS.Identity.Api.Controllers
 {
+    [ApiController]
     [Route("api/identity")]
     public class AuthController : Controller
     {

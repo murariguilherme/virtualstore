@@ -91,26 +91,29 @@ namespace VS.Identity.Api.Controllers
             AddErrorToList("E-mail or password incorrect.");
         }
 
-        private async Task<UserLoginResponse> GenerateJwt(string email)
+        private async Task<ClaimsIdentity> GetClaimsIdentity(IList<Claim> claims, IdentityUser user)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            var userClaims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            userClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
-            userClaims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-            userClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            userClaims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.Now).ToString()));
-            userClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.Now).ToString(), ClaimValueTypes.Integer64));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.Now).ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.Now).ToString(), ClaimValueTypes.Integer64));
 
-            foreach (var role in userRoles)
+            foreach (var userRole in userRoles)
             {
-                userClaims.Add(new Claim("type", role));
+                claims.Add(new Claim("role", userRole));
             }
 
             var identityClaims = new ClaimsIdentity();
-            identityClaims.AddClaims(userClaims);
+            identityClaims.AddClaims(claims);
 
+            return identityClaims;
+        }
+
+        private string GenerateTokenEncoded(ClaimsIdentity identityClaims)
+        {
             var tokenJwtHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
 
@@ -123,11 +126,14 @@ namespace VS.Identity.Api.Controllers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
-            var encodedtoken = tokenJwtHandler.WriteToken(token);
+            return tokenJwtHandler.WriteToken(token);
+        }
 
-            var response = new UserLoginResponse()
+        private UserLoginResponse GenerateResponseToken(IdentityUser user, string encodedToken, IList<Claim> userClaims)
+        {
+            return new UserLoginResponse()
             {
-                AccessToken = encodedtoken,
+                AccessToken = encodedToken,
                 ExpiresIn = (int)TimeSpan.FromHours(_appSettings.ExpirationHours).TotalSeconds,
                 UserToken = new UserToken()
                 {
@@ -136,8 +142,17 @@ namespace VS.Identity.Api.Controllers
                     UserClaims = userClaims.Select(c => new UserClaim() { Type = c.Type, Value = c.Value })
                 }
             };
+        }
 
-            return response;
+        private async Task<UserLoginResponse> GenerateJwt(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var userClaims = await _userManager.GetClaimsAsync(user);            
+            var identityClaims = await GetClaimsIdentity(userClaims, user);
+
+            var encodedtoken = GenerateTokenEncoded(identityClaims);
+            
+            return GenerateResponseToken(user, encodedtoken, userClaims);
         }
 
         private static long ToUnixEpochDate(DateTime date) 

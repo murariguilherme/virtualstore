@@ -16,7 +16,7 @@ namespace VS.Identity.Api.Controllers
 {
     [ApiController]
     [Route("api/identity")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
@@ -31,7 +31,7 @@ namespace VS.Identity.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserRegisterViewModel userRegisterViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return GenerateReponse(ModelState);
 
             var user = new IdentityUser()
             {
@@ -42,7 +42,12 @@ namespace VS.Identity.Api.Controllers
             
             var request = await _userManager.CreateAsync(user, userRegisterViewModel.Password);
 
-            if (!request.Succeeded) return BadRequest();
+            foreach (var error in request.Errors)
+            {
+                AddErrorToList(error.Description);
+            }
+
+            if (!request.Succeeded) return GenerateReponse();            
 
             var login = new UserLoginViewModel()
             {
@@ -56,13 +61,34 @@ namespace VS.Identity.Api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserLoginViewModel userLoginViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return GenerateReponse(ModelState);
 
-            var request = await _signInManager.PasswordSignInAsync(userLoginViewModel.Email, userLoginViewModel.Password, false, false);
+            var response = await _signInManager.PasswordSignInAsync(userLoginViewModel.Email, userLoginViewModel.Password, false, false);            
 
-            if (!request.Succeeded) return BadRequest();
+            if (response.Succeeded) return GenerateReponse(await GenerateJwt(userLoginViewModel.Email));
 
-            return Ok(await GenerateJwt(userLoginViewModel.Email));
+            AddErrorLoginFailure(response);
+            return GenerateReponse();
+        }
+
+        private void AddErrorLoginFailure(Microsoft.AspNetCore.Identity.SignInResult response)
+        {
+            if (response.IsLockedOut)
+            {
+                AddErrorToList("User is locked out.");
+            }
+
+            if (response.IsNotAllowed)
+            {
+                AddErrorToList("User is not allowed.");
+            }
+
+            if (response.RequiresTwoFactor)
+            {
+                AddErrorToList("User requires two factor authentication.");
+            }
+
+            AddErrorToList("E-mail or password incorrect.");
         }
 
         private async Task<UserLoginResponse> GenerateJwt(string email)

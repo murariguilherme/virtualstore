@@ -19,6 +19,7 @@ namespace VS.WebApp.MVC
         {
             services.AddIdentityConfiguration();
             services.AddWebAppConfiguration();
+            services.ResolveDependencies();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

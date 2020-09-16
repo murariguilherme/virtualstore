@@ -9,7 +9,7 @@ using VS.WebApp.MVC.ViewModels;
 
 namespace VS.WebApp.MVC.Services
 {
-    public class IdentityAuthenticationService : IIdentityAuthenticationService
+    public class IdentityAuthenticationService : BaseService, IIdentityAuthenticationService
     {
         private HttpClient _httpClient;
 
@@ -24,8 +24,16 @@ namespace VS.WebApp.MVC.Services
                     JsonSerializer.Serialize(userLoginViewModel), Encoding.UTF8, "application/json"
                 );                
 
-            var response = await _httpClient.PostAsync("https://localhost:44384/api/identity/login", loginContent);
+            var response = await _httpClient.PostAsync("https://localhost:44384/api/identity/login", loginContent);            
             var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+
+            if (!CanResolveErrorMessages(response))
+            {
+                return new UserResponseToken()
+                {
+                    ResponseResult = await JsonSerializer.DeserializeAsync<ResponseResult>(await response.Content.ReadAsStreamAsync(), options)
+                };
+            }
 
             return await JsonSerializer.DeserializeAsync<UserResponseToken>(await response.Content.ReadAsStreamAsync(), options);
         }
@@ -38,6 +46,15 @@ namespace VS.WebApp.MVC.Services
                 );
 
             var response = await _httpClient.PostAsync("https://localhost:44384/api/identity/register", registerContent);
+            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+
+            if (!CanResolveErrorMessages(response))
+            {
+                return new UserResponseToken()
+                {
+                    ResponseResult = await JsonSerializer.DeserializeAsync<ResponseResult>(await response.Content.ReadAsStreamAsync(), options)
+                };
+            }
 
             return await JsonSerializer.DeserializeAsync<UserResponseToken>(await response.Content.ReadAsStreamAsync());
         }

@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using VS.WebApp.MVC.Services;
 using VS.WebApp.MVC.ViewModels;
 
 namespace VS.WebApp.MVC.Controllers
 {
-    public class IdentityController : Controller
+    public class IdentityController : BaseController
     {
         private IIdentityAuthenticationService _authenticationService;
         public IdentityController(IIdentityAuthenticationService authenticationService)
@@ -31,7 +35,9 @@ namespace VS.WebApp.MVC.Controllers
 
             var response = await _authenticationService.Login(userLoginViewModel);
 
-            if (false) return View(userLoginViewModel);
+            if (HasErrors(response.ResponseResult)) return View(userLoginViewModel);
+
+            await AddLoginInformationToCookie(response);
 
             return RedirectToAction("Index", "Home");
         }
@@ -51,7 +57,7 @@ namespace VS.WebApp.MVC.Controllers
 
             var response = await _authenticationService.Register(userRegisterViewModel);
 
-            if (false) return View(userRegisterViewModel);
+            if (HasErrors(response.ResponseResult)) return View(userRegisterViewModel);
 
             return RedirectToAction("Index", "Home");
         }
@@ -60,7 +66,30 @@ namespace VS.WebApp.MVC.Controllers
         [Route("/logout")]
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task AddLoginInformationToCookie(UserResponseToken userResponseToken)
+        {
+            var token = GetFormatToken(userResponseToken.AccessToken);
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim("JWT", userResponseToken.AccessToken));
+            claims.AddRange(token.Claims);
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties() { ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60), IsPersistent = true };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            return;
+        }
+
+        public static JwtSecurityToken GetFormatToken(string token)
+        {
+            return new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
         }
     }
 }

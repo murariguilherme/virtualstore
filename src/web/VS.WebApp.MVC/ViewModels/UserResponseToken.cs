@@ -10,6 +10,7 @@ namespace VS.WebApp.MVC.ViewModels
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }
         public UserToken UserToken { get; set; }
+        public ResponseResult ResponseResult { get; set; }
     }
 
     public class UserToken
@@ -23,5 +24,17 @@ namespace VS.WebApp.MVC.ViewModels
     {
         public string Value { get; set; }
         public string Type { get; set; }
+    }
+
+    public class ResponseResult
+    {
+        public string Title { get; set; }
+        public int Status { get; set; }
+        public ResponseErrorMessages Errors { get; set; }
+    }
+
+    public class ResponseErrorMessages
+    {
+        public List<string> Messages { get; set; }
     }
 }

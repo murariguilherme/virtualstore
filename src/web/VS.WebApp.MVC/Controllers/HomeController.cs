@@ -11,13 +11,6 @@ namespace VS.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -28,10 +21,33 @@ namespace VS.WebApp.MVC.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("/error/{errorCode:length(3,3)}")]
+        public IActionResult Error(int errorCode)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorViewModel = new ErrorViewModel();
+            errorViewModel.ErrorCode = errorCode;
+
+            if (errorCode == 500)
+            {
+                errorViewModel.Title = "Ops!";
+                errorViewModel.Message = "An error ocurred, try again later.";
+            }
+
+            else if (errorCode == 404)
+            {
+                errorViewModel.Title = "Ops!";
+                errorViewModel.Message = "Not found!";
+            }
+
+            else if (errorCode == 403)
+            {
+                errorViewModel.Title = "Forbidden!";
+                errorViewModel.Message = "You're not allowed to access this page.";
+            }
+
+            else return StatusCode(404);
+
+            return View("Error", errorViewModel);
         }
     }
 }

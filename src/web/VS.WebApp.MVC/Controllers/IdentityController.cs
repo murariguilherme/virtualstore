@@ -59,6 +59,8 @@ namespace VS.WebApp.MVC.Controllers
 
             if (HasErrors(response.ResponseResult)) return View(userRegisterViewModel);
 
+            await AddLoginInformationToCookie(response);
+
             return RedirectToAction("Index", "Home");
         }
 

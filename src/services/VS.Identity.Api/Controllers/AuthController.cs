@@ -31,8 +31,6 @@ namespace VS.Identity.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserRegisterViewModel userRegisterViewModel)
         {
-            return StatusCode(403);
-
             if (!ModelState.IsValid) return GenerateReponse(ModelState);
 
             var user = new IdentityUser()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VS.Identity.Api.Extensions
+namespace VS.WebApi.Core.Identity
 {
     public class AppSettings
     {

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VS.Catalog.Api.Data;
+using VS.WebApi.Core.Identity;
 
 namespace VS.Catalog.Api.Configuration
 {
@@ -40,6 +41,8 @@ namespace VS.Catalog.Api.Configuration
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthConfiguration();
 
             app.UseCors("All");
 

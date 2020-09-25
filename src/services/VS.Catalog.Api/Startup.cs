@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VS.Catalog.Api.Configuration;
+using VS.WebApi.Core.Identity;
 
 namespace VS.Catalog
 {
@@ -28,7 +29,8 @@ namespace VS.Catalog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerConfiguration();
-            services.AddApiConfiguration(this.Configuration);
+            services.AddApiConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
             services.RegisterServices();
         }
 

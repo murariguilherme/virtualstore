@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using VS.Identity.Api.Extensions;
 using VS.Identity.Api.ViewModels;
+using VS.WebApi.Core.Identity;
 
 namespace VS.Identity.Api.Controllers
 {

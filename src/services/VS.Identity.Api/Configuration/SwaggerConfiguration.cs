@@ -17,7 +17,7 @@ namespace VS.Identity.Api.Configuration
                     Description = "This API is a virtual store sample.",
                     License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
                     Contact = new OpenApiContact() { Email = "guilhermemurari@icloud.com", Name = "Guilherme" }
-                });
+                });                
             });
         }
 

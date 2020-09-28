@@ -21,7 +21,10 @@ namespace VS.WebApp.MVC.Configuration
 
             services.AddHttpClient<ICatalogService, CatalogService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddPolicyHandler(retryWaitPolicy);
+                .AddPolicyHandler(retryWaitPolicy)
+                .AddTransientHttpErrorPolicy(options =>                
+                    options.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))
+                );
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

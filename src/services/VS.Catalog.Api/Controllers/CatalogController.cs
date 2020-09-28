@@ -24,7 +24,7 @@ namespace VS.Catalog.Api.Controllers
 
         [ClaimsAuthorize("Catalog", "Read")]
         [HttpGet]
-        [Route("catalog/products/{id}")]
+        [Route("product/{id}")]
         public async Task<Product> GetProduct(Guid id)
         {
             return await _repository.GetById(id);
@@ -32,7 +32,7 @@ namespace VS.Catalog.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("catalog/products")]
+        [Route("products")]
         public async Task<IEnumerable<Product>> GetAllProducts()
         {
             return await _repository.GetAll();

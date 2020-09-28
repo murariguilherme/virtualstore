@@ -1,0 +1,45 @@
+﻿@using VS.WebApp.MVC.Extensions
+@model IEnumerable<VS.WebApp.MVC.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<section>
+    <div>
+        <div style="background-image: url(images/banners/Template.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
+            <div style="text-align: center;">
+                <img src="~/images/banners/virtualstore.png" />
+            </div>
+        </div>
+        <div class="container" style=" padding-top: 20px">
+            <div class="row">
+                @{
+                    foreach (var product in Model.OrderBy(p => p.Name))
+                    {
+                        <div class="col-md-3">
+                            <div href="#" class="card card-product-grid">
+                                <a asp-controller="Catalog" asp-action="ProductDetail" asp-route-id="@product.Id" class="img-wrap">
+                                    <img src="~/images/products/@product.Image" alt="@product.Name">
+                                </a>
+                                <figcaption class="info-wrap">
+                                    <a asp-controller="Catalog" asp-action="ProductDetail" asp-route-id="@product.Id" class="title">
+                                        <b> @product.Name</b>
+                                    </a>
+
+                                    <small class="card-text">
+                                        @product.StockQuantity<br /><br />
+                                        @product.Description
+                                    </small>
+                                </figcaption>
+                                <div class="card-footer price mt-1">
+                                    <h3>@product.Value</h3>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>

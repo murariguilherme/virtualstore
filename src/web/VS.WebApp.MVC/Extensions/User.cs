@@ -25,7 +25,7 @@ namespace VS.WebApp.MVC.Extensions
 
         public HttpContext GetHttpContext()
         {
-            throw new NotImplementedException();
+            return _acessor.HttpContext;
         }
 
         public string GetUserEmail()

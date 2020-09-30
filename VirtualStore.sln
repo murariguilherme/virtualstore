@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Cart", "src\services\VS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Catalog.Api", "src\services\VS.Catalog.Api\VS.Catalog.Api.csproj", "{7882AC6A-01BD-426C-92DA-AAB0DE1840C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Customer", "src\services\VS.Customer\VS.Customer.csproj", "{198A2D61-7A6A-4A28-B7D4-21955F049B7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Customer.Api", "src\services\VS.Customer.Api\VS.Customer.Api.csproj", "{198A2D61-7A6A-4A28-B7D4-21955F049B7A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Order", "src\services\VS.Order\VS.Order.csproj", "{FAF76107-DEFF-456B-9DC9-63EFD9FA2D3D}"
 EndProject
@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Payment", "src\services\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A332AC6F-CA2A-48BA-B100-F311CA476710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.WebApi.Core", "src\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj", "{500BAD7D-63E3-4C5B-9520-DA333B5E33F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.WebApi.Core", "src\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj", "{500BAD7D-63E3-4C5B-9520-DA333B5E33F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

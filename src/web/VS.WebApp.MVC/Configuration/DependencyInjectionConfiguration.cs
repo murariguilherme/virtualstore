@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using VS.WebApp.MVC.Extensions;
 using VS.WebApp.MVC.Services;
-using Polly.Extensions.Http;
 using Polly;
 
 namespace VS.WebApp.MVC.Configuration
@@ -13,19 +12,13 @@ namespace VS.WebApp.MVC.Configuration
         public static void ResolveDependencies(this IServiceCollection services)
         {
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-            services.AddHttpClient<IIdentityAuthenticationService, IdentityAuthenticationService>();
-
-            var retryWaitPolicy = HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .WaitAndRetryAsync(new[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10) });
+            services.AddHttpClient<IIdentityAuthenticationService, IdentityAuthenticationService>();            
 
             services.AddHttpClient<ICatalogService, CatalogService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddPolicyHandler(retryWaitPolicy)
+                .AddPolicyHandler(RetryPolicy.RetryAndWaitPolicy())                
                 .AddTransientHttpErrorPolicy(options =>                
-                    options.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30))
-                );
-
+                    options.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, User>();

@@ -28,5 +28,10 @@
     <ProjectReference Include="..\..\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Events\" />
+    <Folder Include="Application\Queries\" />
+  </ItemGroup>
+
 
 </Project>

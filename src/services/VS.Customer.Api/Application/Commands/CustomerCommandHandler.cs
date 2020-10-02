@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VS.Core.Mediator;
 using VS.Core.Messages;
+using VS.Customer.Api.Application.Events;
 using VS.Customer.Api.Models;
 
 namespace VS.Customer.Api.Application.Commands
@@ -36,7 +37,9 @@ namespace VS.Customer.Api.Application.Commands
 
             var customer = new Models.Customer(request.Id, request.Name, request.Email);
 
-            await _repository.AddCustomer(customer);            
+            await _repository.AddCustomer(customer);
+
+            customer.AddEvent(new CustomerRegisteredEvent(request.Id, request.Name, request.Email));
 
             return await DataPersistence(_repository.UnitOfWork);
         }

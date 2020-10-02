@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VS.Core.Messages;
 
 namespace VS.Core.DomainObjects
 {
@@ -13,6 +14,25 @@ namespace VS.Core.DomainObjects
             this.Id = Guid.NewGuid();
         }
 
+        private List<Event> _events;
+        public IReadOnlyCollection<Event> Events => _events.AsReadOnly();
+
+        public void ClearEventList()
+        {
+            _events.Clear();
+        }
+
+        public void AddEvent(Event eventObj)
+        {
+            _events.Add(eventObj);
+        }
+
+        public void RemoveEvent(Event eventObj)
+        {
+            _events.Remove(eventObj);
+        }
+
+        #region Comparasion Methods
         public static bool operator ==(Entity a, Entity b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null)) return true;
@@ -45,5 +65,6 @@ namespace VS.Core.DomainObjects
         {
             return $"{GetType().Name} [Id = {this.Id}]";
         }
+        #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace VS.Customer.Api.Configuration
         {
             services.AddControllers();
 
-            services.AddDbContext<CustomerContext>(options =>
+            services.AddDbContext<CustomerDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });

@@ -8,9 +8,9 @@ using VS.Customer.Api.Models;
 
 namespace VS.Customer.Api.Data
 {
-    public class CustomerContext: DbContext, IUnitOfWork
+    public class CustomerDbContext: DbContext, IUnitOfWork
     {
-        public CustomerContext(DbContextOptions<CustomerContext> options): base(options)
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> options): base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
@@ -33,7 +33,7 @@ namespace VS.Customer.Api.Data
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
-            builder.ApplyConfigurationsFromAssembly(typeof(CustomerContext).Assembly);
+            builder.ApplyConfigurationsFromAssembly(typeof(CustomerDbContext).Assembly);
         }
     }
 }

@@ -8,7 +8,7 @@ using VS.Customer.Api.Data;
 
 namespace VS.Customer.Api.Migrations
 {
-    [DbContext(typeof(CustomerContext))]
+    [DbContext(typeof(CustomerDbContext))]
     partial class CustomerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

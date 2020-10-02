@@ -13,7 +13,7 @@ namespace VS.Customer.Api.Tests.UnitTests
             var command = new RegisterCustomerCommand(Guid.Empty, "", "");
             
             Assert.False(command.IsValid());
-            Assert.Equal(5, command.ValidationResult.Errors.Count);
+            Assert.Equal(4, command.ValidationResult.Errors.Count);
 
             Assert.Contains("'Id' must not be empty.",
                 command.ValidationResult.Errors.Select(e => e.ErrorMessage));
@@ -21,10 +21,8 @@ namespace VS.Customer.Api.Tests.UnitTests
                 command.ValidationResult.Errors.Select(e => e.ErrorMessage));
             Assert.Contains("'Name' must not be empty.",
                 command.ValidationResult.Errors.Select(e => e.ErrorMessage));
-            Assert.Contains("'Email' must be between 5 and 254 characters. You entered 0 characters.",
-                command.ValidationResult.Errors.Select(e => e.ErrorMessage));
-            Assert.Contains("'Email' must not be empty.",
-                command.ValidationResult.Errors.Select(e => e.ErrorMessage));               
+            Assert.Contains("E-mail is not valid.",
+                command.ValidationResult.Errors.Select(e => e.ErrorMessage));           
         }
 
         [Fact]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VS.Core.DomainObjects;
 using VS.Core.Messages;
 
 namespace VS.Customer.Api.Application.Commands
@@ -39,9 +40,14 @@ namespace VS.Customer.Api.Application.Commands
                 .Length(1, 200)
                 .NotEmpty();
 
-            RuleFor(r => r.Email)
-                .Length(5, 254)
-                .NotEmpty();
+            RuleFor(r => r.Email)                
+                .Must(CheckEmailIsValid)
+                .WithMessage("E-mail is not valid.");
+        }
+
+        private bool CheckEmailIsValid(string email)
+        {
+            return Email.Validate(email);
         }
     }
 }

@@ -9,7 +9,7 @@ using VS.Customer.Api.Data;
 
 namespace VS.Customer.Api.Migrations
 {
-    [DbContext(typeof(CustomerContext))]
+    [DbContext(typeof(CustomerDbContext))]
     [Migration("20200930151701_Customers")]
     partial class Customers
     {

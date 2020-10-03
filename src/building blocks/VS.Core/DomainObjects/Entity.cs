@@ -12,6 +12,7 @@ namespace VS.Core.DomainObjects
         public Entity()
         {
             this.Id = Guid.NewGuid();
+            _events = new List<Event>();
         }
 
         private List<Event> _events;
@@ -23,7 +24,7 @@ namespace VS.Core.DomainObjects
         }
 
         public void AddEvent(Event eventObj)
-        {
+        {            
             _events.Add(eventObj);
         }
 

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace VS.Identity.Api.Controllers
+namespace VS.Core.Controllers
 {
+    [ApiController]
     public abstract class BaseController : Controller
     {
         private ICollection<string> Errors = new List<string>();
 
-        protected ActionResult GenerateReponse(object result = null)
+        protected ActionResult GenerateResponse(object result = null)
         {
             if (IsValid()) return Ok(result);
 
@@ -21,7 +23,7 @@ namespace VS.Identity.Api.Controllers
             }));
         }
 
-        protected ActionResult GenerateReponse(ModelStateDictionary modelstate)
+        protected ActionResult GenerateResponse(ModelStateDictionary modelstate)
         {
             var errors = modelstate.Values.SelectMany(e => e.Errors).ToList();
 
@@ -30,7 +32,14 @@ namespace VS.Identity.Api.Controllers
                 AddErrorToList(error.ErrorMessage);
             }
 
-            return GenerateReponse();
+            return GenerateResponse();
+        }
+
+        protected ActionResult GenerateResponse(ValidationResult validationResult)
+        {
+            if (!validationResult.IsValid)
+                validationResult.Errors.ToList().ForEach(e => this.AddErrorToList(e.ErrorMessage));
+            return GenerateResponse();
         }
 
         private bool IsValid()

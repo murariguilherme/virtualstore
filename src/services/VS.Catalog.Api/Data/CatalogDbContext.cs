@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VS.Catalog.Api.Models;
 using VS.Core.Data;
+using VS.Core.Messages;
 
 namespace VS.Catalog.Api.Data
 {
@@ -14,6 +16,9 @@ namespace VS.Catalog.Api.Data
         public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Ignore<Event>();
+            builder.Ignore<ValidationResult>();
+
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(
                          p => p.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");

@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VS.Catalog.Api.Data;
 using VS.Catalog.Api.Models;
+using VS.Core.Controllers;
 using VS.WebApi.Core.Identity;
 
 namespace VS.Catalog.Api.Controllers
-{
-    [ApiController]
+{    
     [Authorize]
     [Route("api/[controller]")]
-    public class CatalogController : Controller
+    public class CatalogController : BaseController
     {
         private readonly IProductRepository _repository;
 

@@ -4,38 +4,42 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-12">
-        <section>
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Welcome to the Visual Store</h4>
-                <hr />
-                
-                <vc:Summary></vc:Summary>
-
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+<div class="card bg-light">
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Login</h4>
+        <!--<p class="text-center">Get started with your free account</p>
+    <p>
+        <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
+    </p>
+    <p class="divider-text">
+        <span class="bg-light">OR</span>
+    </p>-->
+        <form>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input type="password" asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                <input asp-for="Email" class="form-control" placeholder="Email address" type="email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-action="Register" asp-controller="Identity">Create a new account</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
+                <input asp-for="Password" class="form-control" placeholder="Create password" type="password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+            </div>
+            <p class="text-center">Don't have an account? <a href="register">Register</a> </p>
+        </form>
+    </article>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/register.css" />
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

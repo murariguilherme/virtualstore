@@ -9,6 +9,9 @@ namespace VS.WebApp.MVC.ViewModels
     public class UserRegisterViewModel
     {
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -17,6 +20,7 @@ namespace VS.WebApp.MVC.ViewModels
         public string Password { get; set; }
 
         [Compare("Password")]
+        [Display(Description = "Confirm your password")]
         public string ConfirmPassword { get; set; }
     }
 }

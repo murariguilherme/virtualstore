@@ -4,32 +4,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Virtual Store</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/fonts/fontawesome/css/all.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />    
+    <link href="~/font-awesome/css/all.min.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Styles", false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="section-header">
+        <section class="header-main border-bottom">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VS.WebApp.MVC</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-4">
+                        <a asp-action="Index" asp-controller="Catalog" class="brand-wrap">
+                            <img style="height: 40px; width: 40px" alt="Virtual Store" src="~/images/logo.jpg">
+                        </a>
+                    </div>
+
+                    <div class="col-lg-9 col-sm-7 col-8 order-2 order-lg-3">
+                        <div class="d-flex justify-content-end">
+                            <div style="padding-right: 15px">
+                                <a href="#" class="widget-header">
+                                    <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
+                                    <span class="badge badge-pill badge-danger notify">0</span>
+                                </a>
+                            </div>
+                            <div>
+                                <partial name="_LoginPartial" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </section>
     </header>
     <div class="container">
         <main role="main" class="pb-3">

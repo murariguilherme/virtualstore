@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using VS.Core.Controllers;
 using VS.Identity.Api.ViewModels;
 using VS.WebApi.Core.Identity;
 
 namespace VS.Identity.Api.Controllers
-{
-    [ApiController]
+{    
     [Route("api/identity")]
     public class AuthController : BaseController
     {
@@ -31,7 +31,7 @@ namespace VS.Identity.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserRegisterViewModel userRegisterViewModel)
         {
-            if (!ModelState.IsValid) return GenerateReponse(ModelState);
+            if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
             var user = new IdentityUser()
             {
@@ -47,7 +47,7 @@ namespace VS.Identity.Api.Controllers
                 AddErrorToList(error.Description);
             }
 
-            if (!request.Succeeded) return GenerateReponse();            
+            if (!request.Succeeded) return GenerateResponse();            
 
             var login = new UserLoginViewModel()
             {
@@ -61,14 +61,14 @@ namespace VS.Identity.Api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserLoginViewModel userLoginViewModel)
         {
-            if (!ModelState.IsValid) return GenerateReponse(ModelState);
+            if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
             var response = await _signInManager.PasswordSignInAsync(userLoginViewModel.Email, userLoginViewModel.Password, false, false);            
 
-            if (response.Succeeded) return GenerateReponse(await GenerateJwt(userLoginViewModel.Email));
+            if (response.Succeeded) return GenerateResponse(await GenerateJwt(userLoginViewModel.Email));
 
             AddErrorLoginFailure(response);
-            return GenerateReponse();
+            return GenerateResponse();
         }
 
         private void AddErrorLoginFailure(Microsoft.AspNetCore.Identity.SignInResult response)

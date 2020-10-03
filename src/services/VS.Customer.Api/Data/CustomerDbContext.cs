@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using VS.Core.Data;
 using VS.Core.DomainObjects;
 using VS.Core.Mediator;
+using VS.Core.Messages;
 using VS.Customer.Api.Models;
 
 namespace VS.Customer.Api.Data
@@ -25,6 +27,9 @@ namespace VS.Customer.Api.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Ignore<Event>();
+            builder.Ignore<ValidationResult>();
+
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");

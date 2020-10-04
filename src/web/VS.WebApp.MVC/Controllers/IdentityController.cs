@@ -39,7 +39,7 @@ namespace VS.WebApp.MVC.Controllers
 
             await AddLoginInformationToCookie(response);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "");
         }
 
         [HttpGet]
@@ -61,7 +61,7 @@ namespace VS.WebApp.MVC.Controllers
 
             await AddLoginInformationToCookie(response);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "");
         }
 
         [HttpGet]

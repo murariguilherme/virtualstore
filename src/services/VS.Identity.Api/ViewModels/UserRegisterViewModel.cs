@@ -8,6 +8,9 @@ namespace VS.Identity.Api.ViewModels
 {
     public class UserRegisterViewModel
     {
+        [Required]        
+        public string Name { get; set; }
+        
         [Required]
         [EmailAddress]
         public string Email { get; set; }

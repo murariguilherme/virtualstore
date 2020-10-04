@@ -22,7 +22,7 @@ namespace VS.Catalog.Api.Controllers
             _repository = repository;
         }
 
-        [ClaimsAuthorize("Catalog", "Read")]
+        //[ClaimsAuthorize("Catalog", "Read")]
         [HttpGet]
         [Route("product/{id}")]
         public async Task<Product> GetProduct(Guid id)

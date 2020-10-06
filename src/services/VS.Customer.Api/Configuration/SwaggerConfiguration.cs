@@ -13,7 +13,7 @@ namespace VS.Customer.Api.Configuration
             {
                 options.SwaggerDoc("v1", new OpenApiInfo()
                 {
-                    Title = "Virtual Store Catalog Api",
+                    Title = "Virtual Store Customer Api",
                     Description = "Customer api of virtual store",
                     License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
                     Contact = new OpenApiContact() { Email = "guilhermemurari@icloud.com", Name = "Guilherme" }

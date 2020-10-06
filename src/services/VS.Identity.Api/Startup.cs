@@ -25,9 +25,10 @@ namespace VS.Identity.Api
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureSwagger();
             services.ConfigureIdentity(Configuration);
             services.ConfigureApi();
-            services.ConfigureSwagger();                        
+            services.RegisterServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

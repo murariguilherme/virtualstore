@@ -38,7 +38,7 @@ namespace VS.Customer
             services.AddSwaggerConfiguration();
             services.AddApiConfiguration(Configuration);
             services.AddJwtConfiguration(Configuration);
-            services.RegisterServices();
+            services.RegisterServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VS.Customer.Api.Data;
+using VS.MessageBus;
 using VS.WebApi.Core.Identity;
 
 namespace VS.Customer.Api.Configuration
@@ -22,6 +23,8 @@ namespace VS.Customer.Api.Configuration
             });
 
             services.AddMediatR(typeof(Startup));
+
+            services.AddMessageBus(configuration.GetConnectionString("MessageBus"));
 
             services.AddCors(options =>
             {

@@ -32,7 +32,7 @@ namespace VS.WebApp.MVC.Extensions
         {
             if (ex._httpStatusCode == HttpStatusCode.Unauthorized)
             {
-                context.Response.Redirect("/login");
+                context.Response.Redirect("/login");                
                 return;
             }
 

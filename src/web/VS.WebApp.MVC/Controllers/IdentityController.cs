@@ -39,7 +39,7 @@ namespace VS.WebApp.MVC.Controllers
 
             await AddLoginInformationToCookie(response);
 
-            return RedirectToAction("Index", "");
+            return RedirectToAction("Index", "Catalog");
         }
 
         [HttpGet]

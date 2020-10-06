@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using EasyNetQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using VS.Core.Controllers;
 using VS.Core.Messages.Integration;
 using VS.Identity.Api.ViewModels;
+using VS.MessageBus;
 using VS.WebApi.Core.Identity;
 
 namespace VS.Identity.Api.Controllers
@@ -23,12 +23,13 @@ namespace VS.Identity.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        private IBus _bus;
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appsettings)
+        private IMessageBus _bus;
+        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appsettings, IMessageBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _appSettings = appsettings.Value;            
+            _appSettings = appsettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("register")]
@@ -52,9 +53,13 @@ namespace VS.Identity.Api.Controllers
 
             if (!request.Succeeded) return GenerateResponse();
 
-            var registerCustomerResult = await RegisterCustomer(userRegisterViewModel);
+            var registerCustomerResult = await RegisterCustomerBus(userRegisterViewModel);
 
-            if (!registerCustomerResult.Validation.IsValid) return GenerateResponse(registerCustomerResult.Validation);
+            if (!registerCustomerResult.Validation.IsValid) 
+            {
+                await _userManager.DeleteAsync(user);
+                return GenerateResponse(registerCustomerResult.Validation);
+            }            
 
             var login = new UserLoginViewModel()
             {
@@ -65,14 +70,20 @@ namespace VS.Identity.Api.Controllers
             return await Login(login);            
         }
 
-        public async Task<ResponseMessage> RegisterCustomer(UserRegisterViewModel userRegisterViewModel)
+        private async Task<ResponseMessage> RegisterCustomerBus(UserRegisterViewModel userRegisterViewModel)
         {
             var user = await _userManager.FindByEmailAsync(userRegisterViewModel.Email);
-            var integrationEvent = new UserRegisteredIntegrationEvent(Guid.Parse(user.Id), userRegisterViewModel.Name, userRegisterViewModel.Email);
-            _bus = RabbitHutch.CreateBus("host=localhost");
-            var result = await _bus.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(integrationEvent);
+            var integrationEvent = new UserRegisteredIntegrationEvent(Guid.Parse(user.Id), userRegisterViewModel.Name, userRegisterViewModel.Email);            
             
-            return result;
+            try
+            {
+                return await _bus.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(integrationEvent);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
         }
 
         [HttpPost("login")]

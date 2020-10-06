@@ -13,7 +13,7 @@ namespace VS.Identity.Api.Configuration
             {
                 options.SwaggerDoc("v1", new OpenApiInfo()
                 {
-                    Title = "Virtual Store",
+                    Title = "Virtual Store Identity API",
                     Description = "This API is a virtual store sample.",
                     License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
                     Contact = new OpenApiContact() { Email = "guilhermemurari@icloud.com", Name = "Guilherme" }
@@ -24,7 +24,10 @@ namespace VS.Identity.Api.Configuration
         public static void UseSwaggerConfiguration(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            });
         }
     }
 }

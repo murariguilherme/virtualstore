@@ -15,7 +15,7 @@ namespace VS.Customer.Api.Services
 {
     public class UserRegisteredIntegrationHandler : BackgroundService
     {
-        private readonly IMessageBus _bus;
+        private readonly IMessageBus _bus;        
         private readonly IServiceProvider _serviceProvider;
 
         public UserRegisteredIntegrationHandler(IServiceProvider serviceProvider, IMessageBus bus)
@@ -24,12 +24,9 @@ namespace VS.Customer.Api.Services
             _bus = bus;
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {            
+        {
 
-            _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(async request =>
-                await RegisterCustomer(request)
-            );
-            
+            SetResponder();
             return Task.CompletedTask;
         }
 
@@ -45,6 +42,19 @@ namespace VS.Customer.Api.Services
             }
             
             return new ResponseMessage(response);
+        }
+
+        private void SetResponder()
+        {
+            _bus.RespondAsync<UserRegisteredIntegrationEvent, ResponseMessage>(async request =>
+                await RegisterCustomer(request)
+            );
+            _bus.AdvancedBus.Connected += OnConnect;
+        }
+
+        private void OnConnect(object o, EventArgs args)
+        {
+            SetResponder();
         }
     }
 }

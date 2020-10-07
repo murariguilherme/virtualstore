@@ -17,7 +17,7 @@ namespace VS.WebApp.MVC.Configuration
 
         public static void UseWebAppConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            /*if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -26,7 +26,11 @@ namespace VS.WebApp.MVC.Configuration
                 app.UseExceptionHandler("/error/500");
                 app.UseStatusCodePagesWithRedirects("/error/{0}");
                 app.UseHsts();
-            }
+            }*/
+
+            app.UseExceptionHandler("/error/500");
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

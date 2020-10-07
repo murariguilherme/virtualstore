@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyNetQ;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace VS.MessageBus
     public interface IMessageBus : IDisposable
     {
         bool IsConnected { get; }
+        IAdvancedBus AdvancedBus { get; }
 
         void Publish<T>(T message) where T : IntegrationEvent;
 

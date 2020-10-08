@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VS.WebApi.Core.Identity;
+using VS.Cart.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace VS.Cart.Api.Configuration
 {
@@ -13,10 +15,10 @@ namespace VS.Cart.Api.Configuration
         {
             services.AddControllers();
 
-            /*services.AddDbContext<CartDbContext>(options =>
+            services.AddDbContext<CartDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            });*/
+            });
 
             services.AddCors(options =>
             {

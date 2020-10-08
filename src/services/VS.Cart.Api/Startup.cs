@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using VS.Cart.Api.Configuration;
+using VS.WebApi.Core.Identity;
 
 namespace VS.Cart
 {

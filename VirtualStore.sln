@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{28F2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{0C72F320-32CC-4BED-A392-476402DB5DEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Cart", "src\services\VS.Cart\VS.Cart.csproj", "{777809AC-B97E-4C99-8012-F179F15B3698}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Cart.Api", "src\services\VS.Cart.Api\VS.Cart.Api.csproj", "{777809AC-B97E-4C99-8012-F179F15B3698}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Catalog.Api", "src\services\VS.Catalog.Api\VS.Catalog.Api.csproj", "{7882AC6A-01BD-426C-92DA-AAB0DE1840C5}"
 EndProject
@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.Customer.Api.Tests", "te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message Bus", "Message Bus", "{ECCB0AA9-A336-46C5-B8DE-2EF43ABA656D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VS.MessageBus", "src\building blocks\VS.MessageBus\VS.MessageBus.csproj", "{B2439ED3-8F41-42B2-BF56-489EEF3C7156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VS.MessageBus", "src\building blocks\VS.MessageBus\VS.MessageBus.csproj", "{B2439ED3-8F41-42B2-BF56-489EEF3C7156}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

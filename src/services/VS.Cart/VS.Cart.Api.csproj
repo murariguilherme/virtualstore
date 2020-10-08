@@ -20,11 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\..\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 

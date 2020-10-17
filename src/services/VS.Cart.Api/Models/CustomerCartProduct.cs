@@ -19,5 +19,25 @@ namespace VS.Cart.Api.Models
         {
             Id = Guid.NewGuid();
         }
+
+        public decimal CalculateTotal()
+        {
+            return Quantity * Amount;
+        }
+
+        public void AssociateToCustomerCart(Guid id)
+        {
+            CustomerCartId = id;
+        }
+
+        public void UpdateQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
+
+        public void AddQuantity(int quantity)
+        {
+            Quantity += quantity;
+        }
     }
 }

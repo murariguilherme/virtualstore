@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VS.WebApp.MVC.Extensions;
 using System.Net.Http.Headers;
+using VS.WebApi.Core.User;
 
 namespace VS.WebApp.MVC.Services
 {

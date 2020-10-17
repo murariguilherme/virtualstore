@@ -8,11 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\building blocks\VS.Core\VS.Core.csproj" />
     <ProjectReference Include="..\..\building blocks\VS.WebApi.Core\VS.WebApi.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

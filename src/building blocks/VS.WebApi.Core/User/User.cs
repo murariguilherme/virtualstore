@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace VS.WebApp.MVC.Extensions
+namespace VS.WebApi.Core.User
 {
     public class User : IUser
     {

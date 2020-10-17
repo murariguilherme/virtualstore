@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace VS.WebApp.MVC.Extensions
+namespace VS.WebApi.Core.User
 {
     public interface IUser
     {

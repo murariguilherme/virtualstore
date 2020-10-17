@@ -4,6 +4,7 @@ using System;
 using VS.WebApp.MVC.Extensions;
 using VS.WebApp.MVC.Services;
 using Polly;
+using VS.WebApi.Core.User;
 
 namespace VS.WebApp.MVC.Configuration
 {
